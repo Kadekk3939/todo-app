@@ -9,7 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class TaskController {
@@ -32,6 +34,18 @@ public class TaskController {
         return ResponseEntity.ok(repository.findAll(page).getContent());
     }
 
+    @GetMapping(value = "/tasks/{id}")
+    ResponseEntity<Task> readTask(@PathVariable int id) {
+        Optional<Task> task = repository.findById(id);
+
+        if (!task.isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(task.get());
+    }
+
+
     @PutMapping("/tasks/{id}")
     ResponseEntity<?> updateTask(@PathVariable int id,  @RequestBody @Valid Task toUpdate) {
         if (!repository.existsById(id)) {
@@ -40,5 +54,11 @@ public class TaskController {
         toUpdate.setId(id);
         repository.save(toUpdate);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/tasks")
+    ResponseEntity<Task> createTask(@RequestBody @Valid Task toCreate) {
+        Task result = repository.save(toCreate);
+        return ResponseEntity.created(URI.create("/" + result.getId())).body(result);
     }
 }
