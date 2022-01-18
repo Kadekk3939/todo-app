@@ -2,13 +2,14 @@ package io.jmakowiecki.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "tasks")
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private  int id;
+    private int id;
     @NotBlank(message = "Task's description must not be blank!")
     private String description;
     private boolean done;
@@ -39,4 +40,5 @@ public class Task {
     public void setDone(boolean done) {
         this.done = done;
     }
+
 }
