@@ -3,7 +3,6 @@ package io.jmakowiecki.logic;
 import io.jmakowiecki.TaskConfigurationProperties;
 import io.jmakowiecki.model.*;
 import io.jmakowiecki.model.projection.GroupReadModel;
-import io.jmakowiecki.model.projection.GroupWriteModel;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -36,16 +35,17 @@ public class ProjectService {
         }
         TaskGroup result = repository.findById(projectId)
                 .map(project -> {
-                    var targetResult = new TaskGroup();
-                    targetResult.setDescription(project.getDescription());
-                    targetResult.setTasks(project.getSteps().stream()
+                    var targetGroup = new TaskGroup();
+                    targetGroup.setDescription(project.getDescription());
+                    targetGroup.setTasks(project.getSteps().stream()
                                         .map(projectStep ->
                                             new Task(
                                                     projectStep.getDescription(),
                                                     deadline.plusDays(projectStep.getDaysToDeadline()))                                                    )
                                             .collect(Collectors.toSet())
                                         );
-                    return targetResult;
+                    targetGroup.setProject(project);
+                    return taskGroupRepository.save(targetGroup);
                 }).orElseThrow(() -> new IllegalArgumentException("Project with given id not found"));
         return new GroupReadModel(result);
     }
