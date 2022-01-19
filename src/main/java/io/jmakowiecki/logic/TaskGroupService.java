@@ -5,12 +5,10 @@ import io.jmakowiecki.model.TaskGroupRepository;
 import io.jmakowiecki.model.TaskRepository;
 import io.jmakowiecki.model.projection.GroupReadModel;
 import io.jmakowiecki.model.projection.GroupWriteModel;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Service
 public class TaskGroupService {
     private TaskGroupRepository repository;
     private TaskRepository taskRepository;

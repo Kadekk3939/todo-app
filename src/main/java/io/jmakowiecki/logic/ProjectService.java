@@ -3,13 +3,11 @@ package io.jmakowiecki.logic;
 import io.jmakowiecki.TaskConfigurationProperties;
 import io.jmakowiecki.model.*;
 import io.jmakowiecki.model.projection.GroupReadModel;
-import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Service
 public class ProjectService {
     private ProjectRepository repository;
     private TaskGroupRepository taskGroupRepository;
