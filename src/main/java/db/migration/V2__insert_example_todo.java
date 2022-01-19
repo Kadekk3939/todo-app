@@ -9,7 +9,14 @@ public class V2__insert_example_todo extends BaseJavaMigration {
     @Override
     public void migrate(Context context) {
         new JdbcTemplate(new SingleConnectionDataSource(context.getConnection(), true))
-                .execute("insert into tasks (description, done) VALUES ('Learn Java migrations', true)");
+                .execute("insert into tasks (description, done, deadline) VALUES " +
+                        "('Learn Java migrations', true, '2022-12-31 23:59:59'), " +
+                        "('Temporary task', false, '2022-12-31 23:59:59'), " +
+                        "('Temporary task', false, '2022-12-31 23:59:59'), " +
+                        "('Temporary task', false, '2022-12-31 23:59:59'), " +
+                        "('Temporary task', false, '2022-12-31 23:59:59'), " +
+                        "('Temporary task', false, '2022-12-31 23:59:59');"
+                        );
     }
 
 }
