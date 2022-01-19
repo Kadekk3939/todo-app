@@ -20,7 +20,7 @@ public class TaskGroup {
     private Project project;
 
 
-    TaskGroup() {
+    public TaskGroup() {
     }
 
     public int getId() {
@@ -51,7 +51,7 @@ public class TaskGroup {
         return tasks;
     }
 
-    void setTasks(final Set<Task> tasks) {
+    public void setTasks(final Set<Task> tasks) {
         this.tasks = tasks;
     }
 
