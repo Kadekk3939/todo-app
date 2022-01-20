@@ -1,6 +1,7 @@
 package io.jmakowiecki.model.projection;
 
 import io.jmakowiecki.model.Task;
+import io.jmakowiecki.model.TaskGroup;
 
 import java.time.LocalDateTime;
 
@@ -24,7 +25,7 @@ public class GroupTaskWriteModel {
         this.deadline = deadline;
     }
 
-    public Task toTask() {
-        return new Task(description, deadline);
+    public Task toTask(final TaskGroup taskGroup) {
+        return new Task(description, deadline, taskGroup);
     }
 }
