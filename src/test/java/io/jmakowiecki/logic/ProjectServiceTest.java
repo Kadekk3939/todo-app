@@ -147,7 +147,7 @@ class ProjectServiceTest {
 
     private static class InMemoryGroupRepository implements TaskGroupRepository {
         private int index = 0;
-        private Map<Integer, TaskGroup> map = new HashMap<>();
+        private final Map<Integer, TaskGroup> map = new HashMap<>();
 
         public int count() {
             return map.values().size();

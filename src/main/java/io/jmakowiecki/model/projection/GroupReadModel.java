@@ -4,7 +4,6 @@ import io.jmakowiecki.model.Task;
 import io.jmakowiecki.model.TaskGroup;
 
 import java.time.LocalDateTime;
-import java.util.Comparator;
 import java.util.Set;
 import java.util.stream.Collectors;
 

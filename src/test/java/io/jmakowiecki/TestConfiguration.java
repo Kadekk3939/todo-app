@@ -29,7 +29,7 @@ public class TestConfiguration {
     @Profile("integration")
     TaskRepository testRepo() {
         return new TaskRepository() {
-            private Map<Integer, Task> tasks = new HashMap<>();
+            private final Map<Integer, Task> tasks = new HashMap<>();
 
 
             @Override

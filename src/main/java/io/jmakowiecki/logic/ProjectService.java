@@ -11,10 +11,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class ProjectService {
-    private ProjectRepository repository;
-    private TaskGroupRepository taskGroupRepository;
-    private TaskGroupService taskGroupService;
-    private TaskConfigurationProperties config;
+    private final ProjectRepository repository;
+    private final TaskGroupRepository taskGroupRepository;
+    private final TaskGroupService taskGroupService;
+    private final TaskConfigurationProperties config;
 
 
     public ProjectService(
