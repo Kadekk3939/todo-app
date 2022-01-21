@@ -1,5 +1,6 @@
 package io.jmakowiecki.logic;
 
+import io.jmakowiecki.model.Project;
 import io.jmakowiecki.model.TaskGroup;
 import io.jmakowiecki.model.TaskGroupRepository;
 import io.jmakowiecki.model.TaskRepository;
@@ -18,9 +19,12 @@ public class TaskGroupService {
         this.taskRepository = taskRepository;
     }
 
-    public GroupReadModel createGroup(GroupWriteModel source) {
-        TaskGroup result = repository.save(source.toGroup());
+    GroupReadModel createGroup(GroupWriteModel source, Project project) {
+        TaskGroup result = repository.save(source.toGroup(project));
         return new GroupReadModel(result);
+    }
+    public GroupReadModel createGroup(GroupWriteModel source) {
+        return createGroup(source, null);
     }
 
     public List<GroupReadModel> readAll() {
