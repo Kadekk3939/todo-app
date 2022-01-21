@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import javax.sql.DataSource;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Configuration
@@ -31,6 +32,15 @@ public class TestConfiguration {
         return new TaskRepository() {
             private final Map<Integer, Task> tasks = new HashMap<>();
 
+            @Override
+            public List<Task> findAllByDeadlineIsNull() {
+                return List.of();
+            }
+
+            @Override
+            public List<Task> findAllByDeadlineLessThanOrderByDeadline(LocalDateTime date) {
+                return List.of();
+            }
 
             @Override
             public List<Task> findAll() {
@@ -55,6 +65,11 @@ public class TestConfiguration {
             @Override
             public Optional<Task> findById(Integer id) {
                 return Optional.ofNullable(tasks.get(id));
+            }
+
+            @Override
+            public List<Task> findAllByGroup_Id(Integer groupId) {
+                return List.of();
             }
 
             @Override

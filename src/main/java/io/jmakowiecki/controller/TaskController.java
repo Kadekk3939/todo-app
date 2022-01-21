@@ -1,5 +1,6 @@
 package io.jmakowiecki.controller;
 
+import io.jmakowiecki.logic.TaskService;
 import io.jmakowiecki.model.Task;
 import io.jmakowiecki.model.TaskRepository;
 import org.slf4j.Logger;
@@ -11,23 +12,31 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/tasks")
 public class TaskController {
     private static final Logger logger = LoggerFactory.getLogger(TaskController.class);
     private final TaskRepository repository;
+    private final TaskService service;
 
-    TaskController(final TaskRepository repository) {
+    TaskController(final TaskRepository repository, TaskService service) {
         this.repository = repository;
+        this.service = service;
     }
 
     @GetMapping(params = {"!sort", "!page", "!size"})
-    ResponseEntity<List<Task>> readAllTasks() {
+    CompletableFuture<ResponseEntity<List<Task>>> readAllTasks() {
         logger.warn("Exposing all the tasks!");
-        return ResponseEntity.ok(repository.findAll());
+        return service.findAllAsync().thenApply(ResponseEntity::ok);
     }
 
     @GetMapping
@@ -45,6 +54,14 @@ public class TaskController {
     @GetMapping("/search/done")
     ResponseEntity<List<Task>> readDoneTasks(@RequestParam(defaultValue = "true") boolean state) {
         return ResponseEntity.ok(repository.findByDone(state));
+    }
+
+    @GetMapping("/today")
+    ResponseEntity<List<Task>> readTasksForToday() {
+        LocalDateTime date = LocalDate.now().atStartOfDay().plusDays(1);
+        List<Task> result = new ArrayList<>(repository.findAllByDeadlineLessThanOrderByDeadline(date));
+        result.addAll(repository.findAllByDeadlineIsNull());
+        return ResponseEntity.ok(result);
     }
 
 
@@ -68,7 +85,7 @@ public class TaskController {
     }
 
     @Transactional
-    @PatchMapping("/id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<?> toggleTask(@PathVariable int id) {
         if (!repository.existsById(id)) {
             return ResponseEntity.notFound().build();
