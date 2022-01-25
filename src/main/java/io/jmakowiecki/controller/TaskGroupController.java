@@ -21,6 +21,7 @@ import java.net.URI;
 import java.util.List;
 
 @Controller
+@IllegalExceptionProcessing
 @RequestMapping("/groups")
 public class TaskGroupController {
     private static final Logger logger = LoggerFactory.getLogger(TaskGroupController.class);
@@ -72,7 +73,7 @@ public class TaskGroupController {
     }
 
     @ResponseBody
-    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<List<Task>> readAllTasksFromGroup(@PathVariable int id) {
         return ResponseEntity.ok(repository.findAllByGroup_Id(id));
     }
@@ -83,18 +84,6 @@ public class TaskGroupController {
     public ResponseEntity<?> toggleGroup(@PathVariable int id) {
         service.toggleGroup(id);
         return ResponseEntity.noContent().build();
-    }
-
-    @ResponseBody
-    @ExceptionHandler(IllegalArgumentException.class)
-    ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException e) {
-        return ResponseEntity.notFound().build();
-    }
-
-    @ResponseBody
-    @ExceptionHandler(IllegalStateException.class)
-    ResponseEntity<String> handleIllegalStateException(IllegalStateException e) {
-        return ResponseEntity.badRequest().body(e.getMessage());
     }
 
     @ModelAttribute("groups")
