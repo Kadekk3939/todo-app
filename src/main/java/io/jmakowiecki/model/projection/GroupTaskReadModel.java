@@ -2,7 +2,10 @@ package io.jmakowiecki.model.projection;
 
 import io.jmakowiecki.model.Task;
 
+import javax.validation.constraints.NotBlank;
+
 public class GroupTaskReadModel {
+    @NotBlank(message = "Task's description must not be blank!")
     private String description;
     private boolean done;
 

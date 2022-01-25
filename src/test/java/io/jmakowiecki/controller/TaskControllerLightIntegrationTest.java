@@ -1,8 +1,10 @@
 package io.jmakowiecki.controller;
 
+import io.jmakowiecki.logic.TaskService;
 import io.jmakowiecki.model.Task;
 import io.jmakowiecki.model.TaskRepository;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -25,6 +27,9 @@ class TaskControllerLightIntegrationTest {
 
     @MockBean
     private TaskRepository repo;
+
+    @MockBean
+    private TaskService service;
 
     @Test
     void httpGet_returnsGivenTask() throws Exception {
