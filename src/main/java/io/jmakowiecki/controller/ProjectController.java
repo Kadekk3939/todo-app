@@ -4,7 +4,7 @@ import io.jmakowiecki.logic.ProjectService;
 import io.jmakowiecki.model.Project;
 import io.jmakowiecki.model.ProjectStep;
 import io.jmakowiecki.model.projection.ProjectWriteModel;
-import jdk.jfr.MetadataDefinition;
+import io.micrometer.core.annotation.Timed;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,7 +18,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/projects")
 public class ProjectController {
-    private ProjectService service;
+    private final ProjectService service;
 
     ProjectController(final ProjectService service) {
         this.service = service;
@@ -51,6 +51,7 @@ public class ProjectController {
         return "projects";
     }
 
+    @Timed(value = "project.create.group", histogram = true, percentiles = {0.5, 0.95, 0.99})
     @PostMapping("/{id}")
     String createGroup(
             @ModelAttribute("project") ProjectWriteModel current,

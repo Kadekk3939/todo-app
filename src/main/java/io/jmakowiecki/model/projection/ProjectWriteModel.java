@@ -1,6 +1,5 @@
 package io.jmakowiecki.model.projection;
 
-import io.jmakowiecki.logic.ProjectService;
 import io.jmakowiecki.model.Project;
 import io.jmakowiecki.model.ProjectStep;
 
