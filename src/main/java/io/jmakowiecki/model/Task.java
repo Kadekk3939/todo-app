@@ -1,5 +1,7 @@
 package io.jmakowiecki.model;
 
+import io.jmakowiecki.model.event.TaskEvent;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
@@ -55,8 +57,9 @@ public class Task{
         return done;
     }
 
-    public void setDone(boolean done) {
-        this.done = done;
+    public TaskEvent toggle() {
+        this.done = !this.done;
+        return TaskEvent.changed(this);
     }
 
     public LocalDateTime getDeadline() {
