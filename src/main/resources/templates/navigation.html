@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,12 +7,13 @@
     <link rel="stylesheet" href="https://igoradamenko.github.io/awsm.css/css/awsm.min.css">
 </head>
 <body>
-<header>
+<header th:fragment="headlines">
     <h1>Todo App</h1>
     <p>Doing all the things!</p>
+<!--    <h3>Hello, nameless person!</h3>-->
     <nav>
         <ul>
-            <li>
+            <li th:authorize="hasRole('ROLE_ADMIN')">
                 <a href="/projects">Projects</a>
             </li>
             <li>
